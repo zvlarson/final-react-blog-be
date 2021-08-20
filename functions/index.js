@@ -1,13 +1,16 @@
 const functions = require("firebase-functions");
 const express = require("express")
 const cors = require("cors")
+const { getBlogs, addBlog, getBlogId } = require('./src/blog')
 
 const app = express()
 app.use(cors())
 
-app.get('/test', (req, res) => {
-    res.send('It works')
-})
+app.get('/blogs', getBlogs) 
+app.post('/blogs', addBlog)
+app.get('/blogs/:blogId', getBlogId)
+app.patch('/blogs/{id}', editBlogs)
+// app.delete('/blogs/{id}',deleteBlogs )
 
 exports.app = functions.https.onRequest(app)
 
