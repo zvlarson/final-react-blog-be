@@ -40,12 +40,18 @@ exports.addBlog = (req, res) => {
     .catch((error) => res.send('Error', + error.message))
 }
 
-exports.editBlog = (req, res) => {
+exports.deleteBlog = (req, res) => {
     const db = connectFirestore()
     const { blogId } = req.params
-    db.collection('blogs')
-    .doc(blogId)
-    .update(newData)
+    db.collection('blogs').doc(blogId).delete()
     .then(() => this.getBlogs(req, res))
-    .catch((error) => res.send('Error', + error.message))
+    .catch(err => res.status(500).send('Error deleting task: ' + err.message))
+  }
+
+exports.updateBlog = (req, res) => {
+    const db = connectFirestore()
+    const updateBlog = req.body
+    db.collection('blogs').doc(req.params.blogId).update(updateBlog)
+    .then(() => this.getBlogs(req, res))
+    .catch(err => res.status(500).send('Error deleting task: ' + err.message))
 }

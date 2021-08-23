@@ -1,7 +1,7 @@
 const functions = require("firebase-functions");
 const express = require("express")
 const cors = require("cors")
-const { getBlogs, addBlog, getBlogId } = require('./src/blog')
+const { getBlogs, addBlog, getBlogId, deleteBlog, updateBlog } = require('./src/blog')
 
 const app = express()
 app.use(cors())
@@ -9,8 +9,8 @@ app.use(cors())
 app.get('/blogs', getBlogs) 
 app.post('/blogs', addBlog)
 app.get('/blogs/:blogId', getBlogId)
-app.patch('/blogs/{id}', editBlogs)
-// app.delete('/blogs/{id}',deleteBlogs )
+app.delete('/blogs/:blogId',deleteBlog )
+app.patch('/blogs/:blogId', updateBlog )
 
 exports.app = functions.https.onRequest(app)
 
